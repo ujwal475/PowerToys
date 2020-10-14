@@ -6,8 +6,24 @@
         xmlns:local="clr-namespace:ColorPicker"
         xmlns:xamlhost="clr-namespace:Microsoft.Toolkit.Wpf.UI.XamlHost;assembly=Microsoft.Toolkit.Wpf.UI.XamlHost"
         mc:Ignorable="d"
-        Title="Color Picker Editor" Topmost="True" Height="340" Width="400" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="NoResize">
-    <Grid>
-        <xamlhost:WindowsXamlHost Width="400" Height="340" VerticalAlignment="Top" HorizontalAlignment="Left" x:Name="colorPickerEditor" InitialTypeName="ColorPickerEditorUI.ColorPickerEditor" ChildChanged="colorPickerEditor_ChildChanged" />
-    </Grid>
+        Title="Color Picker Editor" Topmost="True" Height="374" Width="400" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="NoResize">
+    <Window.Resources>
+    
+    </Window.Resources>
+    <StackPanel>
+        <Grid Background="#393939" Height="35">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="64"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="40"/>
+            </Grid.ColumnDefinitions>
+
+            <Button BorderThickness="0" Height="35" FontFamily="Segoe MDL2 Assets" Content="&#xEF3C;" Background="Transparent" Foreground="White" x:Name="colorPickerButton" Click="colorPickerButton_Click"/>
+            <TextBlock Grid.Column="1" Text="Color Picker Editor" Margin="10,0,0,0" IsHitTestVisible="True" VerticalAlignment="Center" FontSize="20" FontWeight="Light" Foreground="White" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"/>
+            <Button BorderThickness="0" Grid.Column="2" Content="&#xE894;" Margin="0,0,5,0" FontFamily="Segoe MDL2 Assets" Background="Transparent" Foreground="White" x:Name="closeButton" Click="closeButton_Click"/>
+        </Grid>
+        
+        <xamlhost:WindowsXamlHost Width="400" Height="340" Margin="0,-1,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" x:Name="colorPickerEditor" InitialTypeName="ColorPickerEditorUI.ColorPickerEditor" ChildChanged="colorPickerEditor_ChildChanged" />
+    </StackPanel>
+    
 </Window>

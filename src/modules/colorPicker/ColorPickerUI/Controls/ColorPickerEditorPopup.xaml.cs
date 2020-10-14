@@ -17,6 +17,8 @@ namespace ColorPicker.Controls
     /// </summary>
     public partial class ColorPickerEditorPopup : Window
     {
+        private Windows.UI.Xaml.Controls.ColorPicker _colorPickerControl;
+
         public ColorPickerEditorPopup(Windows.UI.Color initialColor)
         {
             InitializeComponent();
@@ -30,14 +32,13 @@ namespace ColorPicker.Controls
             global::Microsoft.Toolkit.Wpf.UI.XamlHost.WindowsXamlHost windowsXamlHost =
                sender as global::Microsoft.Toolkit.Wpf.UI.XamlHost.WindowsXamlHost;
 
-            var colorPickerControl = windowsXamlHost.GetUwpInternalObject() as global::Windows.UI.Xaml.Controls.ColorPicker;
+            _colorPickerControl = windowsXamlHost.GetUwpInternalObject() as global::Windows.UI.Xaml.Controls.ColorPicker;
 
-            if (colorPickerControl != null)
+            if (_colorPickerControl != null)
             {
-                colorPickerControl.Color = SelectedColor;
-                colorPickerControl.PointerCaptureLost += (s, e1) => {
-                    SelectedColor = colorPickerControl.Color;
-                    this.DialogResult = true;
+                _colorPickerControl.Color = SelectedColor;
+                _colorPickerControl.PointerCaptureLost += (s, e1) => {
+                    SelectedColor = _colorPickerControl.Color;
                 };
                 this.LostFocus += ColorPickerPopupWindow_LostFocus;
             }
@@ -49,7 +50,18 @@ namespace ColorPicker.Controls
 
         private void ColorPickerPopupWindow_LostFocus(object sender, RoutedEventArgs e)
         {
+         //   this.DialogResult = true;
+        }
+
+        private void okButton_Click(object sender, RoutedEventArgs e)
+        {
+            SelectedColor = _colorPickerControl.Color;
             this.DialogResult = true;
+        }
+
+        private void cancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = false;
         }
     }
 }

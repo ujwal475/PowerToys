@@ -24,7 +24,7 @@
             <RectangleGeometry Rect="0 0 400 340"/>
         </Grid.Clip>
         <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="0"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -32,23 +32,8 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Button x:Name="ColorPickerButton" Background="Transparent" Style="{StaticResource IconOnlyButton}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="ColorPickerButton_Click">
-            <Button.Content>
-                <FontIcon FontFamily="Segoe MDL2 Assets" FontSize="16" Glyph="&#xEF3C;"/>
-            </Button.Content>
-        </Button>
-
         <Grid x:Name="BackgroundColorGrid" Grid.Column="1" Grid.RowSpan="2" Background="{ThemeResource DialogBackgroundBrush}"/>
-
-        <Border Grid.Column="1" Background="#01000000" >
-            <TextBlock Text="Color Picker Editor" Margin="10,0,0,0" IsHitTestVisible="False" VerticalAlignment="Center" FontSize="20" FontWeight="Light" Foreground="{StaticResource ApplicationForegroundThemeBrush}"/>
-        </Border>
-        <Button HorizontalAlignment="Right" x:Name="closeButton" Click="closeButton_Click" Grid.ColumnSpan="2" Width="40" Padding="0" VerticalAlignment="Stretch" Background="Transparent" Foreground="{ThemeResource PrimaryTextColor}" Style="{StaticResource IconOnlyButton}">
-            <Button.Content>
-                <FontIcon FontSize="12" Opacity="0.6" HorizontalAlignment="Right" FontWeight="Light" Glyph="&#xE894;" />
-            </Button.Content>
-        </Button>
-
+        
         <Grid Grid.Row="1" >
             <ListView x:Name="ColorsListView" Margin="0,12,0,0" SelectionChanged="ColorsListView_SelectionChanged"  ItemContainerStyle="{StaticResource ListViewItemContainerStyle1}" Grid.Row="1" ItemsSource="{x:Bind PickedColors}" extensions:ListViewExtensions.StretchItemContainerDirection="Both">
                 <ListView.ItemTemplate>
@@ -79,7 +64,7 @@
                 <ThemeShadow x:Name="BackdropShadow"/>
             </Grid.Resources>
             <Grid.RowDefinitions>
-                <RowDefinition Height="52"/>
+                <RowDefinition Height="10"/>
                 <RowDefinition Height="48"/>
                 <RowDefinition Height="10"/>
                 <RowDefinition Height="*"/>

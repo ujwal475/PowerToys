@@ -1,7 +1,6 @@
 ﻿using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -18,8 +17,6 @@ namespace ColorPickerEditorUI
         private DispatcherTimer _timer = new DispatcherTimer();
 
         public event EventHandler<Color> OpenColorPickerPopupClicked;
-        public event EventHandler CloseApplicationClicked;
-        public event EventHandler OpenColorPickerClicked;
         public event EventHandler<string> ColorCopied;
 
         public ObservableCollection<Color> PickedColors { get; set; }
@@ -122,16 +119,6 @@ namespace ColorPickerEditorUI
         private void openColorPickerButton_Click(object sender, RoutedEventArgs e)
         {
             OpenColorPickerPopupClicked?.Invoke(this, ((SolidColorBrush)ColorRect.Background).Color);
-        }
-
-        private void closeButton_Click(object sender, RoutedEventArgs e)
-        {
-            CloseApplicationClicked?.Invoke(this, EventArgs.Empty);
-        }
-
-        private void ColorPickerButton_Click(object sender, RoutedEventArgs e)
-        {
-            OpenColorPickerClicked?.Invoke(this, EventArgs.Empty);
         }
     }
 }

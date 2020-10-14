@@ -19,14 +19,26 @@ namespace ColorPicker.Controls
         private WindowsXamlHost _windowsXamlHost;
         private ColorPickerEditorUI.ColorPickerEditor _editorControl;
         private Dispatcher _dispatcher;
+        private bool _initializing = false;
 
         public ColorPickerEditorWindow(IUserSettings userSettings, AppStateHandler appStateHandler)
         {
             _userSettings = userSettings;
             _appStateHandler = appStateHandler;
             _dispatcher = Application.Current.MainWindow.Dispatcher;
-
             InitializeComponent();
+            IsVisibleChanged += ColorPickerEditorWindow_IsVisibleChanged;
+        }
+
+        private void ColorPickerEditorWindow_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (Visibility == Visibility.Visible)
+            {
+                if(_editorControl != null)
+                {
+                    _editorControl.Focus(Windows.UI.Xaml.FocusState.Programmatic);
+                }
+            }
         }
 
         private void colorPickerEditor_ChildChanged(object sender, EventArgs e)
@@ -41,19 +53,16 @@ namespace ColorPicker.Controls
 
             if (_editorControl != null)
             {
-                InitializeColors(_editorControl, _userSettings);
                 _editorControl.PickedColors.CollectionChanged += PickedColors_CollectionChanged;
-                _editorControl.OpenColorPickerClicked += EditorControl_OpenColorPickerClicked;
                 _editorControl.OpenColorPickerPopupClicked += UserControl_OpenColorPickerPopupClicked;
-                _editorControl.CloseApplicationClicked += UserControl_CloseApplicationClicked;
                 _editorControl.ColorCopied += EditorControl_ColorCopied;
+                _editorControl.Focus(Windows.UI.Xaml.FocusState.Programmatic);
             }
         }
 
-        private void EditorControl_OpenColorPickerClicked(object sender, EventArgs e)
+        public void Initialize()
         {
-            _appStateHandler.ShowColorPicker();
-            CloseWindow();
+            InitializeColors(_editorControl, _userSettings);
         }
 
         private void EditorControl_ColorCopied(object sender, string copiedColor)
@@ -66,32 +75,35 @@ namespace ColorPicker.Controls
 
         private void PickedColors_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            _userSettings.ColorHistory.Clear();
-            foreach(var item in _editorControl.PickedColors)
+            if(!_initializing)
             {
-                _userSettings.ColorHistory.Add(item.A + "|" + item.R + "|" + item.G + "|" + item.B);
+                _userSettings.ColorHistory.Clear();
+                foreach (var item in _editorControl.PickedColors)
+                {
+                    _userSettings.ColorHistory.Add(item.A + "|" + item.R + "|" + item.G + "|" + item.B);
+                }
             }
         }
-
         private void InitializeColors(ColorPickerEditorUI.ColorPickerEditor editor, IUserSettings userSettings)
         {
-            foreach (var item in userSettings.ColorHistory)
+            _initializing = true;
+            editor.PickedColors.Clear();
             {
-                var parts = item.Split('|');
-                editor.PickedColors.Add(new Color()
+                foreach (var item in userSettings.ColorHistory)
                 {
-                    A = byte.Parse(parts[0]),
-                    R = byte.Parse(parts[1]),
-                    G = byte.Parse(parts[2]),
-                    B = byte.Parse(parts[3])
-                });
+                    var parts = item.Split('|');
+                    editor.PickedColors.Add(new Color()
+                    {
+                        A = byte.Parse(parts[0]),
+                        R = byte.Parse(parts[1]),
+                        G = byte.Parse(parts[2]),
+                        B = byte.Parse(parts[3])
+                    });
+                }
+                editor.SelectFirstColor();
             }
-            editor.SelectFirstColor();
-        }
 
-        private void UserControl_CloseApplicationClicked(object sender, EventArgs e)
-        {
-            CloseWindow();
+            _initializing = false;
         }
 
         private void UserControl_OpenColorPickerPopupClicked(object sender, Color initialColor)
@@ -111,15 +123,20 @@ namespace ColorPicker.Controls
             });
         }
 
-        private void CloseWindow()
+        private void TextBlock_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            _editorControl.PickedColors.CollectionChanged -= PickedColors_CollectionChanged;
-            _editorControl.OpenColorPickerPopupClicked -= UserControl_OpenColorPickerPopupClicked;
-            _editorControl.CloseApplicationClicked -= UserControl_CloseApplicationClicked;
-            _editorControl.ColorCopied -= EditorControl_ColorCopied;
-            _editorControl.OpenColorPickerClicked -= EditorControl_OpenColorPickerClicked;
-            _windowsXamlHost.Dispose();
-            Close();
+            DragMove();
+        }
+
+        private void closeButton_Click(object sender, RoutedEventArgs e)
+        {
+            Hide();
+        }
+
+        private void colorPickerButton_Click(object sender, RoutedEventArgs e)
+        {
+            _appStateHandler.ShowColorPicker();
+            Hide();
         }
     }
 }

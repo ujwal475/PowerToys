@@ -8,6 +8,12 @@
         mc:Ignorable="d"
         Title="ColorPickerPopupWindow" Topmost="True" ShowInTaskbar="False" Background="Black" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" WindowStyle="None" ResizeMode="NoResize">
     <Grid>
-        <xamlhost:WindowsXamlHost Margin="10" x:Name="colorPicker" InitialTypeName="Windows.UI.Xaml.Controls.ColorPicker" ChildChanged="colorPicker_ChildChanged" />
+        <StackPanel>
+            <xamlhost:WindowsXamlHost Margin="10" x:Name="colorPicker" InitialTypeName="Windows.UI.Xaml.Controls.ColorPicker" ChildChanged="colorPicker_ChildChanged" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="OK" x:Name="okButton" Click="okButton_Click" Width="100" Height="30" Margin="5"/>
+                <Button Content="Cancel" x:Name="cancelButton" Click="cancelButton_Click" Width="100" Height="30" Margin="5"/>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Window>

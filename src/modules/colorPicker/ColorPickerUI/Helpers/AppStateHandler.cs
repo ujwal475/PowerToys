@@ -13,6 +13,7 @@ namespace ColorPicker.Helpers
     {
         private Dispatcher _dispatcher;
         private readonly IUserSettings _userSettings;
+        private ColorPickerEditorWindow _editor;
 
         [ImportingConstructor]
         public AppStateHandler(IUserSettings userSettings)
@@ -46,8 +47,14 @@ namespace ColorPicker.Helpers
         {
             _dispatcher.Invoke(() =>
             {
-                ColorPickerEditorWindow editor = new ColorPickerEditorWindow(_userSettings, this);
-                editor.Show();
+                if(_editor == null)
+                {
+                    _editor  = new ColorPickerEditorWindow(_userSettings, this);
+                    _editor.Owner = Application.Current.MainWindow;
+                }
+
+                _editor.Show();
+                _editor.Initialize();
             });
         }
 
