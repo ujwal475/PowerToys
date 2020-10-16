@@ -263,15 +263,7 @@ void run_settings_window()
 
     // Arg 1: executable path.
     std::wstring executable_path = get_module_folderpath();
-
-    if (UseNewSettings())
-    {
-        executable_path.append(L"\\SettingsUIRunner\\Microsoft.PowerToys.Settings.UI.Runner.exe");
-    }
-    else
-    {
-        executable_path.append(L"\\PowerToysSettings.exe");
-    }
+    executable_path.append(L"\\PowerToysSettings.exe");
 
     // Arg 2: pipe server. Generate unique names for the pipes, if getting a UUID is possible.
     std::wstring powertoys_pipe_name(L"\\\\.\\pipe\\powertoys_runner_");
