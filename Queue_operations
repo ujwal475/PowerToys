@@ -1,0 +1,42 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<conio.h>
+#define MAXSIZE 5
+typedef struct
+{
+	int front,rear;
+	int items[MAXSIZE];
+}cqueue;
+cqueue cq;
+void cqinsert(int);
+void cqremove();
+void cqdisplay();
+void main()
+{
+	int x,c,s;
+	cq.front=cq.rear=MAXSIZE-1;
+	clrscr();
+	while(1)
+	{
+		printf("\n___MENU___\n");
+		printf("1.Insert\n2.Delete\n3.Display\n4.Exit\n");
+		printf("Enter your choice:\n");
+		scanf("%d",&c);
+		switch(c)
+		{
+			case1:printf("Enter the element to be inserted\n");
+				scanf("%d",&x);
+				cqinsert(x);
+				break;
+			case2:cqremove();
+				break;
+			case3:cqdisplay();
+				break;
+			case4:exit(0);
+				break;
+			default:printf("Invalid operation\n");
+		}
+	}
+}
+
+		
